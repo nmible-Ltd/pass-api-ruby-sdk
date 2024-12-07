@@ -1,5 +1,3 @@
-require 'pp'
-
 module PASS
   class Site
     include PASS::Resources

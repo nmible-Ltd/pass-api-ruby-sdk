@@ -8,6 +8,7 @@ require 'pass/resources'
 require 'pass/client'
 require 'pass/study'
 require 'pass/site'
+require 'pass/participant'
 
 module PASS
   class << self
