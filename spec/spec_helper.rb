@@ -100,5 +100,9 @@ RSpec.configure do |config|
 end
 
 BASE_URL = "https://v2saas.nmible-staging.com"
-EMAIL = "admin@nmible.test"
+EMAIL= "admin@nmible.test"
 PASSWORD = "password"
+
+ENV['PASS_EMAIL'] = EMAIL
+ENV['PASS_PASSWORD'] = PASSWORD
+ENV['PASS_ENDPOINT'] = BASE_URL

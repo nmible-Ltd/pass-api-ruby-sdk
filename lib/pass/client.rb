@@ -1,11 +1,16 @@
+require 'singleton'
+
 module PASS
   class Client
+    include Singleton
+
     attr_reader :conn, :access_token, :refresh_token, :access_token_expiry, :refresh_token_expiry
 
-    def initialize(endpoint:, email:, password:)
+    def initialize
+      @endpoint = ENV['PASS_ENDPOINT']
       @conn = Faraday.new(
-        url: endpoint,
-        headers: {'Content-Type' => 'application/vnd.api+json'}
+        url: @endpoint,
+        headers: {'Content-Type': 'application/vnd.api+json'}
       ) do |faraday|
         faraday.request :json
         faraday.response :json, :parser_options => { :symbolize_names => true }
@@ -13,7 +18,7 @@ module PASS
       end
 
       login_response = @conn.post 'users/login',
-                                  {email: email, password: password}
+                                  {email: ENV['PASS_EMAIL'], password: ENV['PASS_PASSWORD']}
 
 
       @access_token = login_response.body[:data][:attributes][:access]
@@ -29,5 +34,17 @@ module PASS
     def authenticated?
       Time.now < access_token_expiry
     end
+
+    def connection
+      Faraday.new(
+        url: @endpoint,
+        headers: {'Content-Type': 'application/vnd.api+json', 'Authorization': "Bearer #{access_token}"}
+      ) do |faraday|
+        faraday.request :json
+        faraday.response :json, :parser_options => { :symbolize_names => true }
+      end
+    end
+
+
   end
 end

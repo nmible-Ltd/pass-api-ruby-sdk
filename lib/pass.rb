@@ -2,8 +2,10 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 require 'json'
+require 'active_support/core_ext/string/inflections'
 
-require 'client'
+require 'pass/client'
+require 'pass/study'
 
 module PASS
   class << self
