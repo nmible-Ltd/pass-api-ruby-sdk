@@ -1,0 +1,7 @@
+services:
+  spec:
+    build:
+      context: .
+    volumes:
+      - ".:/opt/work"
+    command: rspec
