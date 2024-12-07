@@ -42,11 +42,12 @@ module PASS
           filters.delete(filter.to_sym)
         end
 
-        response.body[:data].map do |item|
+        collection = response.body[:data].map do |item|
           attributes = extract_data_from_item(item)
           attributes[:study_id] = item[:relationships][:study][:data][:id]
           new(attributes)
         end
+        filter_collection(filters, collection)
       end
     end
   end

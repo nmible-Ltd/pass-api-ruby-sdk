@@ -28,15 +28,7 @@ module PASS
         collection = response.body[:data].map do |item|
           new(extract_data_from_item(item))
         end
-        if filters.any?
-          collection.select { |obj|
-            filters.all? do |k, v|
-              obj.send(k) == v
-            end
-          }
-        else
-          collection
-        end
+        filter_collection(filters, collection)
       end
     end
   end
