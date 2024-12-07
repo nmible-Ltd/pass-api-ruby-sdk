@@ -1,5 +1,6 @@
 module PASS
   class Study
+    include PASS::Resources
 
     attr_accessor :id,
                   :name,
@@ -21,13 +22,6 @@ module PASS
                   :updated_at,
                   :deleted_at
 
-    def initialize(attributes)
-      attributes.each do |k, v|
-        self.send("#{k.to_s}=", v)
-      end
-    end
-
-
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'studies'
@@ -43,15 +37,6 @@ module PASS
         else
           collection
         end
-      end
-
-      def extract_data_from_item(item)
-        attributes_hash = item[:attributes].inject({}) do |mem, (k,v)|
-          mem[k.to_s.underscore.to_sym] = v
-          mem
-        end
-        attributes_hash[:id] = item[:id]
-        attributes_hash
       end
     end
   end
