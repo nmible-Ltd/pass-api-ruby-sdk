@@ -42,7 +42,8 @@ module PASS
       {
         data: {
           type: api_type,
-          attributes: api_attributes
+          attributes: api_attributes,
+          relationships: {}
         }
       }
     end
