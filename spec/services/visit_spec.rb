@@ -31,4 +31,9 @@ RSpec.describe 'PASS::Visit' do
     end
   end
 =end
+
+  context 'when creating a visit with an arm and a study' do
+    before do
+    end
+  end
 end

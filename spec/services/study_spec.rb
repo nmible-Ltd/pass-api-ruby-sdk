@@ -23,4 +23,20 @@ RSpec.describe 'PASS::Study' do
       expect(@studies.first.protocol_number).to eq('101010')
     end
   end
+
+  context 'with valid study attributes' do
+    before do
+      @attributes = StudyFixture.valid
+    end
+
+    it 'should create a study' do
+      @study = PASS::Study.new
+      @attributes.each do |k, v|
+        @study.send("#{k}=", v)
+      end
+      @study.save
+      expect(@study.valid?).to be true
+    end
+
+  end
 end
