@@ -24,9 +24,6 @@ module PASS
     attribute :point_of_contact_name, :string
     attribute :point_of_contact_phone_number, :string
     attribute :point_of_contact_email, :string
-    attribute :created_at, :time
-    attribute :updated_at, :time
-    attribute :deleted_at, :time
 
     attr_accessor :id,
                   :study_id,

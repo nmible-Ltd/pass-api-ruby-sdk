@@ -23,9 +23,6 @@ module PASS
     attribute :last_participant_last_visit, :time
     attribute :database_lock, :time
     attribute :clinical_study_report, :time
-    attribute :created_at, :time
-    attribute :updated_at, :time
-    attribute :deleted_at, :time
 
     attr_accessor :id,
                   :country_ids,

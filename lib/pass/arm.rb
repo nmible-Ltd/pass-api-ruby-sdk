@@ -3,9 +3,6 @@ module PASS
     validates :title, presence: true
 
     attribute :title, :string
-    attribute :created_at, :time
-    attribute :updated_at, :time
-    attribute :deleted_at, :time
 
     attr_accessor :id,
                   :visit_schedule_id

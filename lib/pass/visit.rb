@@ -1,32 +1,47 @@
 module PASS
-  class Visit
-    include PASS::Resources
+  class Visit < PASS::Resource
+    validates_presence_of :name, :time_frame, :time_window,
+                          :screening, :randomisation, :stipend, :stipend_value,
+                          presence: true
+
+    attribute :name, :string
+    attribute :time_frame, :integer, default: 0
+    attribute :time_window, :integer, default: 0
+    attribute :screening, :boolean, default: false
+    attribute :randomisation, :boolean, default: false
+    attribute :stipend, :boolean, default: false
+    attribute :stipend_value, :string
 
     attr_accessor :id,
-                  :name,
-                  :time_frame,
-                  :time_window,
-                  :screening,
-                  :randomisation,
-                  :stipend,
-                  :stipend_value,
-                  :created_at,
-                  :updated_at,
-                  :deleted_at,
                   :arm_id
+
+    def create_endpoint
+      'visits'
+    end
+
+    def destroy_endpoint
+      "visits/#{id}"
+    end
 
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'visits' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
         end
-        collection = response.body[:data].map do |item|
-          attributes = extract_data_from_item(item)
-          attributes[:arm_id] = item[:relationships][:arm][:data][:id]
-          new(attributes)
-        end
+        collection = extract_list_from_response(response)
         filter_collection(filters, collection)
       end
+
+      def list_endpoint
+        "visits"
+      end
+
+      def has_one
+        {
+          :arm_id => OpenStruct.new(type: :arms, label: :arm),
+        }
+      end
+
     end
   end
 end

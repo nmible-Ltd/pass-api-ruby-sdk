@@ -1,12 +1,6 @@
 module PASS
   class VisitSchedule < PASS::Resource
-
-    attribute :created_at, :time
-    attribute :updated_at, :time
-    attribute :deleted_at, :time
-
     attr_accessor :id, :study_id
-
 
     def create_endpoint
       'visit-schedules'

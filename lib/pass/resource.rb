@@ -6,6 +6,10 @@ module PASS
     include ActiveModel::Attributes
     include ActiveModel::AttributeAssignment
 
+    attribute :created_at, :time
+    attribute :updated_at, :time
+    attribute :deleted_at, :time
+
     def save
       if self.id.present?
         update
@@ -101,12 +105,16 @@ module PASS
 
       def list(filters: {})
         response = PASS::Client.instance.connection.get list_endpoint
-        collection = response.body[:data].map do |item|
+        collection = extract_list_from_response(response)
+        filter_collection(filters, collection)
+      end
+
+      def extract_list_from_response(response)
+        response.body[:data].map do |item|
           obj = new
           obj.assign_attributes(extract_data_from_item(item))
           obj
         end
-        filter_collection(filters, collection)
       end
 
       def list_endpoint
