@@ -8,7 +8,7 @@ module PASS
     attribute :deleted_at, :time
 
     attr_accessor :id,
-                  :study_id
+                  :visit_schedule_id
 
     def create_endpoint
       'arms'
@@ -23,11 +23,11 @@ module PASS
         'arms'
       end
 
-#      def has_one
-#        {
-#          :study_id => OpenStruct.new(type: :studies, label: :study)
-#        }
-#      end
+      def has_one
+        {
+          :visit_schedule_id => OpenStruct.new(type: "visit-schedules", label: :visitSchedule)
+        }
+      end
     end
   end
 end
