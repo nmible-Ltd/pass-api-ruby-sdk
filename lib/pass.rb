@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 require 'json'
+require 'ostruct'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/object/blank'
 

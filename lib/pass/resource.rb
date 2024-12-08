@@ -33,6 +33,31 @@ module PASS
       attributes.transform_keys { |k| k.camelize(:lower) }
     end
 
+    def api_create_attributes
+      attrs = {
+        data: {
+          type: api_type,
+          attributes: api_attributes,
+        }
+      }
+      self.class.has_many.each do |(k,v)|
+        attrs[:data][:relationships] ||= {}
+        relationship = self.send(k)
+        if relationship.present?
+          attrs[:data][:relationships][v.label] ||= {}
+          attrs[:data][:relationships][v.label][:data] ||= {}
+          relationship.each_with_index do |item, idx|
+            attrs[:data][:relationships][v.label][:data][idx] ||= {}
+            attrs[:data][:relationships][v.label][:data][idx][:type] = v.type
+            attrs[:data][:relationships][v.label][:data][idx][:id] = item
+          end
+        end
+      end
+      pp attrs
+      attrs
+    end
+
+
     class << self
       def filtered_objects_from_response(response, filters)
         collection = response.body[:data].map do |item|
@@ -52,6 +77,12 @@ module PASS
           mem[k.to_s.underscore.to_sym] = v
           mem
         end
+        has_many.each do |k, v|
+          val = item[:relationships][v.label]
+          attributes_hash[k] = val[:data].map do |item|
+            item[:id].to_i
+          end
+        end
         attributes_hash[:id] = item[:id]
         attributes_hash
       end
@@ -66,6 +97,10 @@ module PASS
         else
           collection
         end
+      end
+
+      def has_many
+        {}
       end
 
     end

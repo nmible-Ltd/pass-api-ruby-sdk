@@ -29,25 +29,14 @@ module PASS
     attribute :updated_at, :time
     attribute :deleted_at, :time
 
-    attr_accessor :id
+    attr_accessor :id, :country_ids
 
     def create
       response = PASS::Client.instance.connection.post 'studies' do |req|
-        req.body = create_attributes
+        req.body = api_create_attributes
       end
       pp response.body
     end
-
-    def create_attributes
-      {
-        data: {
-          type: api_type,
-          attributes: api_attributes,
-          relationships: {}
-        }
-      }
-    end
-
 
     class << self
       def list(filters: {})
@@ -65,7 +54,7 @@ module PASS
 
       def has_many
         {
-          :countries => :countries
+          :country_ids => OpenStruct.new(type: :countries, label: :countries)
         }
       end
 

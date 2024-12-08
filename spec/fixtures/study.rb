@@ -13,6 +13,7 @@ class StudyFixture
         description: 'This is a study',
         max_budget: '100000.00',
         notification_percentage: '10.00',
+        country_ids: [PASS::Country.list(filters: {code: 'US'}).first.id]
       }
     end
   end
