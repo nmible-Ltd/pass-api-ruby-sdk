@@ -33,17 +33,12 @@ module PASS
                   :country_id
 
 
-    def create
-      response = PASS::Client.instance.connection.post 'sites' do |req|
-        req.body = api_create_attributes
-      end
-      if response.success?
-        self.id = response.body[:data][:id]
-      end
+    def create_endpoint
+      'sites'
     end
 
-    def destroy
-      PASS::Client.instance.connection.delete "sites/#{id}"
+    def destroy_endpoint
+      "sites/#{id}"
     end
 
     class << self

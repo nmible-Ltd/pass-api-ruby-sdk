@@ -25,7 +25,7 @@ RSpec.describe 'PASS::Site' do
     end
   end
 
-  context 'with an existing study' do
+  context 'with an existing study and valid site attributes' do
     before do
       study_attributes = StudyFixture.valid
       @country = PASS::Country.list(filters: {code: 'US'}).first

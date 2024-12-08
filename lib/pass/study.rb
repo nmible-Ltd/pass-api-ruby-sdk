@@ -35,17 +35,12 @@ module PASS
                   :default_language_id,
                   :default_currency_id
 
-    def create
-      response = PASS::Client.instance.connection.post 'studies' do |req|
-        req.body = api_create_attributes
-      end
-      if response.success?
-        self.id = response.body[:data][:id]
-      end
+    def create_endpoint
+      'studies'
     end
 
-    def destroy
-      PASS::Client.instance.connection.delete "studies/#{id}"
+    def destroy_endpoint
+      "studies/#{id}"
     end
 
     class << self

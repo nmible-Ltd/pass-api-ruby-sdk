@@ -1,22 +1,33 @@
 module PASS
-  class Arm
-    include PASS::Resources
+  class Arm < PASS::Resource
+    validates :title, presence: true
+
+    attribute :title, :string
+    attribute :created_at, :time
+    attribute :updated_at, :time
+    attribute :deleted_at, :time
 
     attr_accessor :id,
-                  :title,
-                  :created_at,
-                  :updated_at,
-                  :deleted_at
+                  :study_id
 
-    class << self
-      def list(filters: {})
-        response = PASS::Client.instance.connection.get 'arms'
-        collection = response.body[:data].map do |item|
-          new(extract_data_from_item(item))
-        end
-        filter_collection(filters, collection)
-      end
+    def create_endpoint
+      'arms'
     end
 
+    def destroy_endpoint
+      "arms/#{id}"
+    end
+
+    class << self
+      def list_endpoint
+        'arms'
+      end
+
+#      def has_one
+#        {
+#          :study_id => OpenStruct.new(type: :studies, label: :study)
+#        }
+#      end
+    end
   end
 end

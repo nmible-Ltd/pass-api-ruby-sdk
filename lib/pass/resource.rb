@@ -15,10 +15,29 @@ module PASS
     end
 
     def create
+      response = PASS::Client.instance.connection.post create_endpoint do |req|
+        req.body = api_create_attributes
+      end
+      if response.success?
+        self.id = response.body[:data][:id]
+      else
+        pp response.body
+      end
+    end
+
+    def create_endpoint
       raise NotImplementedError
     end
 
     def update
+      raise NotImplementedError
+    end
+
+    def destroy
+      PASS::Client.instance.connection.delete destroy_endpoint
+    end
+
+    def destroy_endpoint
       raise NotImplementedError
     end
 
@@ -29,7 +48,7 @@ module PASS
     end
 
     def api_type
-      self.class.to_s.split('::').last.downcase.pluralize
+      self.class.to_s.split('::').last.underscore.dasherize.pluralize.downcase
     end
 
     def api_attributes
@@ -66,7 +85,6 @@ module PASS
           attrs[:data][:relationships][v.label][:data][:id] = relationship
         end
       end
-      pp attrs
       attrs
     end
 
@@ -81,7 +99,17 @@ module PASS
         filter_collection(filters, collection)
       end
 
-      def list
+      def list(filters: {})
+        response = PASS::Client.instance.connection.get list_endpoint
+        collection = response.body[:data].map do |item|
+          obj = new
+          obj.assign_attributes(extract_data_from_item(item))
+          obj
+        end
+        filter_collection(filters, collection)
+      end
+
+      def list_endpoint
         raise NotImplementedError
       end
 
