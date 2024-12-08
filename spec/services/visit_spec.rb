@@ -62,7 +62,6 @@ RSpec.describe 'PASS::Visit' do
   context 'when listing visits with a filter of name and an arm attached' do
     before do
       study_attributes = StudyFixture.valid
-      @country = PASS::Country.list(filters: {code: 'US'}).first
       @study = PASS::Study.new
       @study.assign_attributes(study_attributes)
       @study.save

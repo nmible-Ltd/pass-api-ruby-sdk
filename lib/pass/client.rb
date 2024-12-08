@@ -42,6 +42,7 @@ module PASS
       ) do |faraday|
         faraday.request :json
         faraday.response :json, :parser_options => { :symbolize_names => true }
+        faraday.response :logger, nil, { headers: true, bodies: true, errors: true }
       end
     end
 

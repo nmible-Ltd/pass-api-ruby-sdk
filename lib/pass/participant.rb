@@ -1,40 +1,52 @@
 module PASS
-  class Participant
-    include PASS::Resources
+  class Participant < PASS::Resource
+    validates :client_id, :year_of_birth, :enrollment_date,
+              :instruction_email_sent, :participant_screen_failed,
+              :requires_pin_change,
+              presence: true
+
+    attribute :screening_number, :string
+    attribute :randomisation_number, :string
+    attribute :client_id, :string
+    attribute :randomisation_number_assigned_at, :date
+    attribute :year_of_birth, :integer
+    attribute :enrollment_date, :date
+    attribute :screening_date, :date
+    attribute :email, :string
+    attribute :instruction_email_sent, :boolean, default: false
+    attribute :participant_screen_failed, :boolean, default: false
+    attribute :pin_expires_at, :time
+    attribute :requires_pin_change, :boolean, default: false
+    attribute :tax_compliant, :boolean, default: false
 
     attr_accessor :id,
-                  :screening_number,
-                  :randomisation_number,
-                  :client_id,
-                  :randomisation_number_assigned_at,
-                  :year_of_birth,
-                  :enrollment_date,
-                  :screening_date,
-                  :email,
-                  :instruction_email_sent,
-                  :participant_screen_failed,
-                  :pin_expires_at,
-                  :requires_pin_change,
-                  :tax_compliant,
-                  :created_at,
-                  :updated_at,
-                  :deleted_at,
-                  :arm_id
+                  :arm_id,
+                  :site_id
 
+    def create_endpoint
+      'participants'
+    end
 
+    def destroy_endpoint
+      "participants/#{id}"
+    end
 
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'participants' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
         end
-        collection = response.body[:data].map do |item|
-          attributes = extract_data_from_item(item)
-          attributes[:arm_id] = item[:relationships][:arm][:data][:id]
-          new(attributes)
-        end
+        collection = extract_list_from_response(response)
         filter_collection(filters, collection)
       end
+
+      def has_one
+        {
+          :arm_id => OpenStruct.new(type: :arms, label: :arm),
+          :site_id => OpenStruct.new(type: :sites, label: :site)
+        }
+      end
+
     end
   end
 end

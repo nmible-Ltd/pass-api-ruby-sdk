@@ -25,6 +25,11 @@ module PASS
       if response.success?
         self.id = response.body[:data][:id]
       else
+        puts "object"
+        pp self
+        puts "attributes"
+        pp api_create_attributes
+        puts "response-body"
         pp response.body
       end
     end
