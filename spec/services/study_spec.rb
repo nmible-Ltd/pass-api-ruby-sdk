@@ -36,6 +36,11 @@ RSpec.describe 'PASS::Study' do
       end
       @study.save
       expect(@study.valid?).to be true
+      expect(@study.id).to be_present
+    end
+
+    after do
+      @study.destroy
     end
 
   end

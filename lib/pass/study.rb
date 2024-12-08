@@ -1,5 +1,3 @@
-require 'pp'
-
 module PASS
   class Study < PASS::Resource
     validates :name, :sponsor, :protocol_number, :phase,
@@ -29,13 +27,25 @@ module PASS
     attribute :updated_at, :time
     attribute :deleted_at, :time
 
-    attr_accessor :id, :country_ids
+    attr_accessor :id,
+                  :country_ids,
+                  :currency_ids,
+                  :language_ids,
+                  :expense_type_ids,
+                  :default_language_id,
+                  :default_currency_id
 
     def create
       response = PASS::Client.instance.connection.post 'studies' do |req|
         req.body = api_create_attributes
       end
-      pp response.body
+      if response.success?
+        self.id = response.body[:data][:id]
+      end
+    end
+
+    def destroy
+      PASS::Client.instance.connection.delete "studies/#{id}"
     end
 
     class << self
@@ -50,11 +60,18 @@ module PASS
       end
 
       def has_one
+        {
+          :default_language_id => OpenStruct.new(type: :languages, label: :defaultLanguage),
+          :default_currency_id => OpenStruct.new(type: :currencies, label: :defaultCurrency)
+        }
       end
 
       def has_many
         {
-          :country_ids => OpenStruct.new(type: :countries, label: :countries)
+          :country_ids => OpenStruct.new(type: :countries, label: :countries),
+          :expense_type_ids => OpenStruct.new(type: "expense-types", label: :expenseTypes),
+          :currency_ids => OpenStruct.new(type: :currencies, label: :supportedCurrencies),
+          :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages)
         }
       end
 

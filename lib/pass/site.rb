@@ -1,25 +1,32 @@
 module PASS
-  class Site
-    include PASS::Resources
+  class Site < PASS::Resource
+    validates :name, :number, :status, :line1, :line2,
+              :postcode, :max_patient_count,
+              :travel_rate_unit_of_measurement,
+              :point_of_contact_name,
+              :point_of_contact_phone_number,
+              :point_of_contact_email,
+              presence: true
+
+    attribute :name, :string
+    attribute :number, :string
+    attribute :status, :string
+    attribute :line1, :string
+    attribute :line2, :string
+    attribute :line3, :string
+    attribute :town, :string
+    attribute :postcode, :string
+    attribute :max_patient_count, :integer
+    attribute :travel_rate_value, :decimal
+    attribute :travel_rate_unit_of_measurement, :string
+    attribute :point_of_contact_name, :string
+    attribute :point_of_contact_phone_number, :string
+    attribute :point_of_contact_email, :string
+    attribute :created_at, :time
+    attribute :updated_at, :time
+    attribute :deleted_at, :time
 
     attr_accessor :id,
-                  :created_at,
-                  :updated_at,
-                  :deleted_at,
-                  :name,
-                  :number,
-                  :status,
-                  :line1,
-                  :line2,
-                  :line3,
-                  :town,
-                  :postcode,
-                  :max_patient_count,
-                  :travel_rate_value,
-                  :travel_rate_unit_of_measurement,
-                  :point_of_contact_name,
-                  :point_of_contact_phone_number,
-                  :point_of_contact_email,
                   :study_id
 
 
@@ -41,11 +48,17 @@ module PASS
         end
 
         collection = response.body[:data].map do |item|
-          attributes = extract_data_from_item(item)
-          attributes[:study_id] = item[:relationships][:study][:data][:id]
-          new(attributes)
+          obj = new
+          obj.assign_attributes(extract_data_from_item(item))
+          obj
         end
         filter_collection(filters, collection)
+      end
+
+      def has_one
+        {
+          :study_id => OpenStruct.new(type: :study, label: :study)
+        }
       end
     end
   end

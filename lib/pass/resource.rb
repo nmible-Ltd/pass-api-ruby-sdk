@@ -53,6 +53,16 @@ module PASS
           end
         end
       end
+      self.class.has_one.each do |(k, v)|
+        attrs[:data][:relationships] ||= {}
+        relationship = self.send(k)
+        if relationship.present?
+          attrs[:data][:relationships][v.label] ||= {}
+          attrs[:data][:relationships][v.label][:data] ||= {}
+          attrs[:data][:relationships][v.label][:data][:type] = v.type
+          attrs[:data][:relationships][v.label][:data][:id] = relationship
+        end
+      end
       pp attrs
       attrs
     end
@@ -83,6 +93,9 @@ module PASS
             item[:id].to_i
           end
         end
+        has_one.each do |k, v|
+          attributes_hash[k] = item[:relationships][v.label][:data][:id]
+        end
         attributes_hash[:id] = item[:id]
         attributes_hash
       end
@@ -97,6 +110,10 @@ module PASS
         else
           collection
         end
+      end
+
+      def has_one
+        {}
       end
 
       def has_many
