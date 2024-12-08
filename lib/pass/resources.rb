@@ -11,9 +11,25 @@ module PASS
       end
     end
 
-    module ClassMethods
-      def list_response(response)
+    def save
+      if self.id.exists?
+        update
+      else
+        create
+      end
+    end
 
+    def create
+      raise NotImplementedError
+    end
+
+    def update
+      raise NotImplementedError
+    end
+
+    module ClassMethods
+      def list
+        raise NotImplementedError
       end
 
       def extract_data_from_item(item)

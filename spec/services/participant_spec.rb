@@ -17,7 +17,7 @@ RSpec.describe 'PASS::Participant' do
       @participants = PASS::Participant.list(filters: {client_id: @client_id})
     end
 
-    it 'should return a list of sites associated to a study' do
+    it 'should return a list of participants of size 1 with the right client_id' do
       expect(@participants).to be_kind_of(Array)
       expect(@participants.size).to eq(1)
       expect(@participants.first).to be_kind_of(PASS::Participant)
