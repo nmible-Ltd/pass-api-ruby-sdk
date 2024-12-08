@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 class StudyFixture
   class << self
     def valid

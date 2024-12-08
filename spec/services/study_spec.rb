@@ -31,9 +31,7 @@ RSpec.describe 'PASS::Study' do
 
     it 'should create a study' do
       @study = PASS::Study.new
-      @attributes.each do |k, v|
-        @study.send("#{k}=", v)
-      end
+      @study.assign_attributes(@attributes)
       @study.save
       expect(@study.valid?).to be true
       expect(@study.id).to be_present

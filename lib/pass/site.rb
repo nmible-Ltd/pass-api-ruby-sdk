@@ -1,3 +1,5 @@
+require 'pp'
+
 module PASS
   class Site < PASS::Resource
     validates :name, :number, :status, :line1, :line2,
@@ -17,7 +19,7 @@ module PASS
     attribute :town, :string
     attribute :postcode, :string
     attribute :max_patient_count, :integer
-    attribute :travel_rate_value, :decimal
+    attribute :travel_rate_value, :string
     attribute :travel_rate_unit_of_measurement, :string
     attribute :point_of_contact_name, :string
     attribute :point_of_contact_phone_number, :string
@@ -27,18 +29,27 @@ module PASS
     attribute :deleted_at, :time
 
     attr_accessor :id,
-                  :study_id
+                  :study_id,
+                  :country_id
 
+
+    def create
+      response = PASS::Client.instance.connection.post 'sites' do |req|
+        req.body = api_create_attributes
+      end
+      if response.success?
+        self.id = response.body[:data][:id]
+      end
+    end
+
+    def destroy
+      PASS::Client.instance.connection.delete "sites/#{id}"
+    end
 
     class << self
       def list(filters: {})
-        query_filters = %w(country study study.visitSchedule.id)
-        active_query_filters = filters.select do |k, v|
-          query_filters.include?(k.to_s)
-        end || {}
-
         response = PASS::Client.instance.connection.get 'sites' do |request|
-          active_query_filters.each do |k, v|
+          active_query_filters(filters).each do |k, v|
             request.params["filter[#{k}]"] = v
           end
         end
@@ -57,8 +68,13 @@ module PASS
 
       def has_one
         {
-          :study_id => OpenStruct.new(type: :study, label: :study)
+          :study_id => OpenStruct.new(type: :studies, label: :study),
+          :country_id => OpenStruct.new(type: :countries, label: :country)
         }
+      end
+
+      def query_filters
+        %w(country study study.visitSchedule.id)
       end
     end
   end

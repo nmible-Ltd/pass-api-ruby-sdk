@@ -1,7 +1,10 @@
+require 'pp'
+
 module PASS
   class Resource
     include ActiveModel::Validations
     include ActiveModel::Attributes
+    include ActiveModel::AttributeAssignment
 
     def save
       if self.id.present?
@@ -110,6 +113,21 @@ module PASS
         else
           collection
         end
+      end
+
+      def active_query_filters(filters={})
+        returning = if query_filters.any?
+          filters.select do |k, v|
+            query_filters.include?(k.to_s)
+          end || {}
+        else
+          {}
+        end
+        returning
+      end
+
+      def query_filters
+        []
       end
 
       def has_one

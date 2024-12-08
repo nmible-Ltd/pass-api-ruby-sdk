@@ -24,4 +24,34 @@ RSpec.describe 'PASS::Site' do
       expect(@sites.first.study_id).to eq(@study.id)
     end
   end
+
+  context 'with an existing study' do
+    before do
+      study_attributes = StudyFixture.valid
+      @country = PASS::Country.list(filters: {code: 'US'}).first
+      @study = PASS::Study.new
+      @study.assign_attributes(study_attributes)
+      @study.save
+      @site_attributes = SiteFixture.valid
+      @site_attributes[:country_id] = @country.id
+      @site_attributes[:study_id] = @study.id
+    end
+
+    it 'should create a site' do
+      @site = PASS::Site.new
+      @site.assign_attributes(@site_attributes)
+      @site.save
+      expect(@site.valid?).to be true
+      expect(@site.id).to be_present
+      expect(@site.study_id).to eq(@study.id)
+    end
+
+    after do
+      begin
+        @site.destroy
+      ensure
+        @study.destroy
+      end
+    end
+  end
 end
