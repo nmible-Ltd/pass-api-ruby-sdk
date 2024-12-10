@@ -8,9 +8,8 @@ module PASS
     attr_accessor :id
 
     class << self
-      def list(filters: {})
-        response = PASS::Client.instance.connection.get 'expense-types'
-        filtered_objects_from_response(response, filters)
+      def list_endpoint
+        'expense-types'
       end
     end
 

@@ -37,21 +37,40 @@ RSpec.describe 'PASS::Participant' do
       @site.save
     end
 
-    it 'should be able to create a participant' do
-      participant_attributes = {
-        client_id: 'OMAR-1111111',
-        year_of_birth: 1984,
-        enrollment_date: Date.today,
-        arm_id: @arm.id,
-        site_id: @site.id
-      }
-      @participant = PASS::Participant.new
-      @participant.assign_attributes(participant_attributes)
-      @participant.save
-      expect(@participant.valid?)
-      expect(@participant.id).to be_present
-      expect(@participant.arm_id).to eq(@arm.id)
-      expect(@participant.site_id).to eq(@site.id)
+    context 'when creating a client' do
+      before do
+        @client_id = 'OMAR-1111111'
+        participant_attributes = {
+          client_id: @client_id,
+          year_of_birth: 1984,
+          enrollment_date: Date.today,
+          arm_id: @arm.id,
+          site_id: @site.id
+        }
+        @participant = PASS::Participant.new
+        @participant.assign_attributes(participant_attributes)
+        @participant.save
+      end
+
+      it 'should be able to create a participant' do
+        expect(@participant.valid?)
+        expect(@participant.id).to be_present
+        expect(@participant.arm_id).to eq(@arm.id)
+        expect(@participant.site_id).to eq(@site.id)
+      end
+
+      context 'when listing a created client' do
+        before do
+          @participants = PASS::Participant.list(filters: {client_id: @client_id})
+         end
+
+        it 'should return a list of participants of size 1 with the right client_id' do
+          expect(@participants).to be_kind_of(Array)
+          expect(@participants.size).to eq(1)
+          expect(@participants.first).to be_kind_of(PASS::Participant)
+          expect(@participants.first.client_id).to eq(@client_id)
+        end
+      end
     end
 
     after do
@@ -67,17 +86,4 @@ RSpec.describe 'PASS::Participant' do
 
   end
 
-  context 'when listing participants with a filter of client_id' do
-    before do
-      @client_id = 'arm-1-onboarded'
-      @participants = PASS::Participant.list(filters: {client_id: @client_id})
-    end
-
-    it 'should return a list of participants of size 1 with the right client_id' do
-      expect(@participants).to be_kind_of(Array)
-      expect(@participants.size).to eq(1)
-      expect(@participants.first).to be_kind_of(PASS::Participant)
-      expect(@participants.first.client_id).to eq(@client_id)
-    end
-  end
 end

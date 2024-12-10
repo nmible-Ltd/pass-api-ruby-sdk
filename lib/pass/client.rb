@@ -5,8 +5,10 @@ module PASS
     include Singleton
 
     attr_reader :conn, :access_token, :refresh_token, :access_token_expiry, :refresh_token_expiry
+    attr_accessor :debug
 
     def initialize
+      @debug = false
       @endpoint = ENV['PASS_ENDPOINT']
       @conn = Faraday.new(
         url: @endpoint,
@@ -42,7 +44,7 @@ module PASS
       ) do |faraday|
         faraday.request :json
         faraday.response :json, :parser_options => { :symbolize_names => true }
-        faraday.response :logger, nil, { headers: true, bodies: true, errors: true }
+        faraday.response :logger, nil, { headers: true, bodies: true, errors: true } if debug
       end
     end
 

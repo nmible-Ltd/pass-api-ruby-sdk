@@ -42,7 +42,9 @@ module PASS
 
     class << self
       def list(filters: {})
-        response = PASS::Client.instance.connection.get 'studies'
+        response = PASS::Client.instance.connection.get 'studies' do |request|
+          request.params["page[size]"] = 10000000 # TODO: Remove this
+        end
         collection = response.body[:data].map do |item|
           obj = new
           obj.assign_attributes(extract_data_from_item(item))

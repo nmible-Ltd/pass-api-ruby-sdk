@@ -61,7 +61,7 @@ module PASS
     end
 
     def api_attributes
-      attributes.transform_keys { |k| k.camelize(:lower) }
+      attributes.transform_keys { |k| k.camelize(:lower) }#.reject { |k,v| v.nil? }
     end
 
     def api_create_attributes
