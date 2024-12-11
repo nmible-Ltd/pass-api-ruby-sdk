@@ -13,6 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://www.nmible.com/"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
+  spec.require_paths = %w[lib]
+  spec.files = `git ls-files -z`.split("\x0")
 
   spec.add_dependency 'faraday', '2.12.1'
   spec.add_dependency 'jwt', '2.9.3'
