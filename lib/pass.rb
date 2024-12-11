@@ -6,6 +6,7 @@ require 'ostruct'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/object/blank'
 
+require 'pass/version'
 require 'pass/resources'
 require 'pass/resource'
 require 'pass/client'
