@@ -19,6 +19,7 @@ require 'pass/arm'
 require 'pass/site'
 require 'pass/participant'
 require 'pass/visit'
+require 'pass/micropayment'
 
 module PASS
   class << self
