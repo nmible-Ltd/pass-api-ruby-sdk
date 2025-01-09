@@ -37,6 +37,10 @@ module PASS
       Time.now < access_token_expiry
     end
 
+    def set_debug(debug_value)
+      @debug = debug_value
+    end
+
     def connection
       Faraday.new(
         url: @endpoint,

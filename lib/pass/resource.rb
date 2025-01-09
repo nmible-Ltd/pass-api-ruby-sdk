@@ -39,7 +39,12 @@ module PASS
     end
 
     def update
-      raise NotImplementedError
+      response = PASS::Client.instance.connection.put update_endpoint do |req|
+        req.body = api_create_attributes(include_id: true)
+      end
+      unless response.success?
+        raise "Failed to update"
+      end
     end
 
     def destroy
@@ -64,16 +69,19 @@ module PASS
       attributes.transform_keys { |k| k.camelize(:lower) }#.reject { |k,v| v.nil? }
     end
 
-    def api_create_attributes
+    def api_create_attributes(include_id: false)
       attrs = {
         data: {
           type: api_type,
           attributes: api_attributes,
         }
       }
+      attrs[:data][:id] = id if include_id
+
       self.class.has_many.each do |(k,v)|
         attrs[:data][:relationships] ||= {}
         relationship = self.send(k)
+
         if relationship.present?
           attrs[:data][:relationships][v.label] ||= {}
           attrs[:data][:relationships][v.label][:data] ||= {}
@@ -84,9 +92,11 @@ module PASS
           end
         end
       end
+
       self.class.has_one.each do |(k, v)|
         attrs[:data][:relationships] ||= {}
         relationship = self.send(k)
+
         if relationship.present?
           attrs[:data][:relationships][v.label] ||= {}
           attrs[:data][:relationships][v.label][:data] ||= {}
@@ -94,12 +104,14 @@ module PASS
           attrs[:data][:relationships][v.label][:data][:id] = relationship
         end
       end
+
       attrs
     end
 
 
     class << self
       def filtered_objects_from_response(response, filters)
+        puts response.inspect
         collection = response.body[:data].map do |item|
           obj = new
           obj.assign_attributes(extract_data_from_item(item))
@@ -108,10 +120,13 @@ module PASS
         filter_collection(filters, collection)
       end
 
-      def list(filters: {})
+      def list(filters: {}, debug: false)
         response = PASS::Client.instance.connection.get list_endpoint
         collection = extract_list_from_response(response)
-        filter_collection(filters, collection)
+        pp collection if debug
+        filtered_collection = filter_collection(filters, collection)
+        pp filtered_collection
+        filtered_collection
       end
 
       def extract_list_from_response(response)

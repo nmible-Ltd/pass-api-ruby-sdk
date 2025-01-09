@@ -21,6 +21,7 @@ require 'pass/site'
 require 'pass/participant'
 require 'pass/visit'
 require 'pass/micropayment'
+require 'pass/participant_visit'
 
 module PASS
   class << self
