@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'faraday', '2.12.1'
   spec.add_dependency 'jwt', '2.9.3'
-  spec.add_dependency 'activesupport', '8.0.0', require: 'active_support'
-  spec.add_dependency 'activemodel', '8.0.0', require: 'active_model'
+  spec.add_dependency 'activesupport', '8.0.0'
+  spec.add_dependency 'activemodel', '8.0.0'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
