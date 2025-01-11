@@ -4,4 +4,5 @@ services:
       context: .
     volumes:
       - ".:/opt/work"
-    command: rspec
+    command: rspec spec/services/study_spec.rb
+    #command: rspec

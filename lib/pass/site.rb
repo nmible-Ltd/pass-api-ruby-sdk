@@ -39,6 +39,10 @@ module PASS
     end
 
     class << self
+      def get_endpoint(id)
+        "sites/#{id}"
+      end
+
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'sites' do |request|
           active_query_filters(filters).each do |k, v|

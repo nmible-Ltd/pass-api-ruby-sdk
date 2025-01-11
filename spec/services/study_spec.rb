@@ -37,9 +37,18 @@ RSpec.describe 'PASS::Study' do
       end
     end
 
+    context "when attempting to get a study" do
+      before do
+        @actual = PASS::Study.get(@study.id)
+        expect(@actual.id).to eq(@study.id)
+        expect(@actual.protocol_number).to eq(@study.protocol_number)
+      end
+    end
+
     after do
       @study.destroy
     end
 
   end
+
 end

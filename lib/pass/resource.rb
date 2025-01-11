@@ -120,13 +120,18 @@ module PASS
         filter_collection(filters, collection)
       end
 
+      def get(id)
+        response = PASS::Client.instance.connection.get get_endpoint(id)
+        obj = new
+        obj.assign_attributes(extract_data_from_item(response.body[:data]))
+        obj
+      end
+
       def list(filters: {}, debug: false)
         response = PASS::Client.instance.connection.get list_endpoint
         collection = extract_list_from_response(response)
         pp collection if debug
-        filtered_collection = filter_collection(filters, collection)
-        pp filtered_collection
-        filtered_collection
+        filter_collection(filters, collection)
       end
 
       def extract_list_from_response(response)

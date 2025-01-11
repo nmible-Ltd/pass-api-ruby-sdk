@@ -54,4 +54,34 @@ RSpec.describe 'PASS::Site' do
       end
     end
   end
+
+  context 'with an existing site' do
+    before do
+      study_attributes = StudyFixture.valid
+      country = PASS::Country.list(filters: {code: 'US'}).first
+      @study = PASS::Study.new
+      @study.assign_attributes(study_attributes)
+      @study.save
+      site_attributes = SiteFixture.valid
+      site_attributes[:country_id] = country.id
+      site_attributes[:study_id] = @study.id
+      @existing_site = PASS::Site.new
+      @existing_site.assign_attributes(site_attributes)
+      @existing_site.save
+    end
+
+    it 'should be able to fetch the site' do
+      @site = PASS::Site.get(@existing_site.id)
+      expect(@site.id).to eq(@existing_site.id)
+      expect(@site.study_id).to eq(@existing_site.study_id)
+    end
+
+    after do
+      begin
+        @existing_site.destroy
+      ensure
+        @study.destroy
+      end
+    end
+  end
 end

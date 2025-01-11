@@ -41,6 +41,10 @@ module PASS
     end
 
     class << self
+      def get_endpoint(id)
+        "studies/#{id}"
+      end
+
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'studies' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
