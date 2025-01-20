@@ -18,6 +18,7 @@ module PASS
     attribute :pin_expires_at, :time
     attribute :requires_pin_change, :boolean, default: false
     attribute :tax_compliant, :boolean, default: false
+    attribute :tax_requirement, :boolean, default: false
 
     attr_accessor :id,
                   :arm_id,
