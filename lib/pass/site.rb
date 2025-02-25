@@ -24,6 +24,7 @@ module PASS
     attribute :point_of_contact_name, :string
     attribute :point_of_contact_phone_number, :string
     attribute :point_of_contact_email, :string
+    attribute :pi_name, :string
 
     attr_accessor :id,
                   :study_id,
