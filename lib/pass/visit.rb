@@ -11,7 +11,7 @@ module PASS
     attribute :randomisation, :boolean, default: false
     attribute :stipend, :boolean, default: false
     attribute :stipend_value, :string
-    attribute :translations, :json
+    attribute :translations, :string # this is actually JSON
 
     attr_accessor :id,
                   :arm_id
