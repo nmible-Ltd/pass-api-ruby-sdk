@@ -11,6 +11,7 @@ module PASS
     attribute :randomisation, :boolean, default: false
     attribute :stipend, :boolean, default: false
     attribute :stipend_value, :string
+    attribute :translations, :json
 
     attr_accessor :id,
                   :arm_id
