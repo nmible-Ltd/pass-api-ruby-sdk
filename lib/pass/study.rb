@@ -23,6 +23,7 @@ module PASS
     attribute :last_participant_last_visit, :time
     attribute :database_lock, :time
     attribute :clinical_study_report, :time
+    attribute :translations, :string
 
     attr_accessor :id,
                   :country_ids,
