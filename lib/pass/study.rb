@@ -69,7 +69,7 @@ module PASS
         {
           #:country_ids => OpenStruct.new(type: :countries, label: :countries),
           :expense_type_ids => OpenStruct.new(type: "expense-types", label: :expenseTypes),
-          :currency_ids => OpenStruct.new(type: :currencies, label: :supportedCurrencies),
+          #:currency_ids => OpenStruct.new(type: :currencies, label: :supportedCurrencies),
           :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages)
         }
       end
