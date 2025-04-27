@@ -153,8 +153,13 @@ module PASS
         end
         has_many.each do |k, v|
           val = item[:relationships][v.label]
-          attributes_hash[k] = val[:data].map do |item|
-            item[:id].to_i
+          begin
+            attributes_hash[k] = val[:data].map do |item|
+              item[:id].to_i
+            end
+          rescue
+            puts "undefined relationship for value: #{val}"
+            raise
           end
         end
         has_one.each do |k, v|
