@@ -135,10 +135,15 @@ module PASS
       end
 
       def extract_list_from_response(response)
-        response.body[:data].map do |item|
-          obj = new
-          obj.assign_attributes(extract_data_from_item(item))
-          obj
+        begin
+          response.body[:data].map do |item|
+            obj = new
+            obj.assign_attributes(extract_data_from_item(item))
+            obj
+          end
+        rescue
+          puts "failed to extract list with body of #{response.body.to_s}"
+          raise
         end
       end
 
