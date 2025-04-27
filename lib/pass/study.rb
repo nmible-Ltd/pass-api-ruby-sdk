@@ -25,6 +25,7 @@ module PASS
     attribute :clinical_study_report, :time
     attribute :translations, :string
     attribute :approval_state, :string
+    attribute :notes, :string
 
     attr_accessor :id,
                   :country_ids,
