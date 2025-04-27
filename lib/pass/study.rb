@@ -24,6 +24,7 @@ module PASS
     attribute :database_lock, :time
     attribute :clinical_study_report, :time
     attribute :translations, :string
+    attribute :approval_state, :string
 
     attr_accessor :id,
                   :country_ids,
