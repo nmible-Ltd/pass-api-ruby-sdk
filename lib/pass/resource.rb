@@ -163,7 +163,12 @@ module PASS
           end
         end
         has_one.each do |k, v|
-          attributes_hash[k] = item[:relationships][v.label][:data][:id]
+          begin
+            attributes_hash[k] = item[:relationships][v.label][:data][:id]
+          rescue
+            puts "undefined relationship for value #{v.label}"
+            raise
+          end
         end
         attributes_hash[:id] = item[:id]
         attributes_hash
