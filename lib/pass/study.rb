@@ -61,15 +61,12 @@ module PASS
       def has_one
         {
           :default_language_id => OpenStruct.new(type: :languages, label: :defaultLanguage),
-          :default_currency_id => OpenStruct.new(type: :currencies, label: :defaultCurrency)
         }
       end
 
       def has_many
         {
-          #:country_ids => OpenStruct.new(type: :countries, label: :countries),
           :expense_type_ids => OpenStruct.new(type: "expense-types", label: :expenseTypes),
-          #:currency_ids => OpenStruct.new(type: :currencies, label: :supportedCurrencies),
           :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages)
         }
       end
