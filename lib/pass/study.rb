@@ -26,6 +26,7 @@ module PASS
     attribute :translations, :string
     attribute :approval_state, :string
     attribute :notes, :string
+    attribute :draft_info, :string
 
     attr_accessor :id,
                   :country_ids,
