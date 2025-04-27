@@ -158,7 +158,7 @@ module PASS
               item[:id].to_i
             end
           rescue
-            puts "undefined relationship for value: #{val}"
+            puts "undefined relationship for value: #{v.label}"
             raise
           end
         end
