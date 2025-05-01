@@ -35,7 +35,11 @@ module PASS
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'participants' do |request|
-          request.params["page[size]"] = 10000000 # TODO: Remove this
+          # TODO: Remove this
+          request.params["page[size]"] = 10000000
+          active_query_filters(filters).each do |k, v|
+            request.params["filter[#{k}]"] = v
+          end
         end
         collection = extract_list_from_response(response)
         filter_collection(filters, collection)
@@ -48,6 +52,9 @@ module PASS
         }
       end
 
+      def query_filters
+        %w(clientId)
+      end
     end
   end
 end
