@@ -1,6 +1,6 @@
 module PASS
   class VisitSchedule < PASS::Resource
-    attr_accessor :id, :study_id
+    attr_accessor :id, :study_id, :study # why does this need study and study_id?
 
     def create_endpoint
       'visit-schedules'
