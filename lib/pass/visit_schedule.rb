@@ -1,3 +1,5 @@
+require 'pp'
+
 module PASS
   class VisitSchedule < PASS::Resource
     attr_accessor :id, :study_id, :study # why does this need study and study_id?
@@ -20,6 +22,7 @@ module PASS
           end
         end
         collection = extract_list_from_response(response)
+        pp collection.inspect
         filter_collection(filters, collection)
       end
 
