@@ -2,7 +2,7 @@ require 'pp'
 
 module PASS
   class VisitSchedule < PASS::Resource
-    attr_accessor :id, :study_id, :study # why does this need study and study_id?
+    attr_accessor :id, :study_id
 
     def create_endpoint
       'visit-schedules'
@@ -22,7 +22,9 @@ module PASS
           end
         end
         collection = extract_list_from_response(response)
-        pp collection.inspect
+        query_filters.each do |filter|
+          filters.delete(filter)
+        end
         filter_collection(filters, collection)
       end
 
