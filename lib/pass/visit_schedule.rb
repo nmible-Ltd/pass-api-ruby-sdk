@@ -1,5 +1,3 @@
-require 'pp'
-
 module PASS
   class VisitSchedule < PASS::Resource
     attr_accessor :id, :study_id
@@ -23,7 +21,6 @@ module PASS
         end
         collection = extract_list_from_response(response)
         query_filters.each do |filter|
-          pp "Removing #{filter}"
           filters.delete(filter.to_sym)
         end
         filter_collection(filters, collection)
