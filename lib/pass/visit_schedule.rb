@@ -23,7 +23,8 @@ module PASS
         end
         collection = extract_list_from_response(response)
         query_filters.each do |filter|
-          filters.delete(filter)
+          pp "Removing #{filter}"
+          filters.delete(filter.to_sym)
         end
         filter_collection(filters, collection)
       end
