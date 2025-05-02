@@ -46,7 +46,7 @@ module PASS
         {
           :visit_id => OpenStruct.new(type: :visits, label: :visit),
           :participant_id => OpenStruct.new(type: :participants, label: :participant),
-          :visit_type_id => OpenStruct.new(type: "visit-types", label: :visitType)
+          :visit_type_id => OpenStruct.new(type: "visit-types", label: :visitType, optional: true)
         }
       end
     end

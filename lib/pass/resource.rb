@@ -171,8 +171,12 @@ module PASS
           begin
             attributes_hash[k] = item[:relationships][v.label][:data][:id]
           rescue
-            puts "undefined relationship for value #{v.label}"
-            raise
+            if v.respond_to?(:optional) && v.optional
+              # do nothing
+            else
+              puts "undefined relationship for value #{v.label}"
+              raise
+            end
           end
         end
         attributes_hash[:id] = item[:id]
