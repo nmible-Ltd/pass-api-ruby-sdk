@@ -45,7 +45,7 @@ module PASS
       def has_one
         {
           :visit_id => OpenStruct.new(type: :visits, label: :visit),
-          :participant_id => OpenStruct.new(type: :participants, label: :participant)
+          :participant_id => OpenStruct.new(type: :participants, label: :participant),
           :visit_type_id => OpenStruct.new(type: "visit-types", label: :visitType)
         }
       end
