@@ -33,6 +33,9 @@ module PASS
           end
         end
         collection = extract_list_from_response(response)
+        query_filters.each do |filter|
+          filters.delete(filter.to_sym)
+        end
         filter_collection(filters, collection)
       end
 
