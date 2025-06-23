@@ -50,7 +50,7 @@ module PASS
       end
 
       def query_filters
-        %w(participant arm)
+        %w(arm name)
       end
 
     end
