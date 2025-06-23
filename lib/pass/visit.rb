@@ -26,7 +26,7 @@ module PASS
 
     class << self
       def list(filters: {})
-        response = PASS::Client.instance.connection.get 'visits' do |request|
+        response = PASS::Client.instance.connection.get list_endpoint do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
           active_query_filters(filters).each do |k, v|
             request.params["filter[#{k}]"] = v
@@ -47,6 +47,10 @@ module PASS
         {
           :arm_id => OpenStruct.new(type: :arms, label: :arm),
         }
+      end
+
+      def query_filters
+        %w(participant arm)
       end
 
     end

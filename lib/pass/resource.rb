@@ -196,14 +196,13 @@ module PASS
       end
 
       def active_query_filters(filters={})
-        returning = if query_filters.any?
+        if query_filters.any?
           filters.select do |k, v|
             query_filters.include?(k.to_s)
           end || {}
         else
           {}
         end
-        returning
       end
 
       def query_filters
