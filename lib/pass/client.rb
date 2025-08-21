@@ -19,8 +19,12 @@ module PASS
         faraday.response :raise_error
       end
 
-      login_response = @conn.post 'users/login',
-                                  {email: ENV['PASS_EMAIL'], password: ENV['PASS_PASSWORD']}
+      login_response = @conn.post 'users/login', {data: {
+                                                    attributes: {
+                                                      email: ENV['PASS_EMAIL'],
+                                                      password: ENV['PASS_PASSWORD']
+                                                    }
+                                                 }}
 
 
       @access_token = login_response.body[:data][:attributes][:access]
