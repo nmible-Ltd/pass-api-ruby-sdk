@@ -22,20 +22,25 @@ module PASS
 
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'arms' do |request|
-          request.params["include"] = "visitSchedule"
+          active_query_filters(filters).each do |k, v|
+            request.params["filter[#{k}]"] = v
+          end
         end
-        collection = response.body[:data].map do |item|
-          obj = new
-          obj.assign_attributes(extract_data_from_item(item))
-          obj
+        collection = extract_list_from_response(response)
+        query_filters.each do |filter|
+          filters.delete(filter.to_sym)
         end
         filter_collection(filters, collection)
       end
 
       def has_one
         {
-          :visit_schedule_id => OpenStruct.new(type: "visit-schedules", label: :visitSchedule)
+          :study_country_id => OpenStruct.new(type: "study-countries", label: :studyCountry)
         }
+      end
+
+      def query_filters
+        %w(study)
       end
     end
   end
