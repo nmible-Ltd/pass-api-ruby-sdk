@@ -51,8 +51,11 @@ module PASS
 
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'studies' do |request|
-          request.params["page[size]"] = 10000000 # TODO: Remove this
+          # request.params["page[size]"] = 10000000
           request.params["include"] = "defaultLanguage,expenseTypes,supportedLanguages"
+          active_query_filters(filters).each do |k, v|
+            request.params["filter[#{k}]"] = v
+          end
         end
         collection = response.body[:data].map do |item|
           obj = new
@@ -73,6 +76,10 @@ module PASS
           :expense_type_ids => OpenStruct.new(type: "expense-types", label: :expenseTypes),
           :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages)
         }
+      end
+
+      def query_filters
+        %w(protocolNumber)
       end
 
     end
