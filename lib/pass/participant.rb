@@ -1,6 +1,6 @@
 module PASS
   class Participant < PASS::Resource
-    validates :client_id, :year_of_birth, :enrollment_date,
+    validates :client_id, :year_of_birth, :enrolment_date,
               :instruction_email_sent, :participant_screen_failed,
               :requires_pin_change,
               presence: true
@@ -10,7 +10,7 @@ module PASS
     attribute :client_id, :string
     attribute :randomisation_number_assigned_at, :date
     attribute :year_of_birth, :integer
-    attribute :enrollment_date, :date
+    attribute :enrolment_date, :date
     attribute :screening_date, :date
     attribute :email, :string
     attribute :instruction_email_sent, :boolean, default: false
