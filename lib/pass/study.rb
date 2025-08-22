@@ -57,10 +57,9 @@ module PASS
             request.params["filter[#{k}]"] = v
           end
         end
-        collection = response.body[:data].map do |item|
-          obj = new
-          obj.assign_attributes(extract_data_from_item(item))
-          obj
+        collection = extract_list_from_response(response)
+        query_filters.each do |filter|
+          filters.delete(filter.to_sym)
         end
         filter_collection(filters, collection)
       end
