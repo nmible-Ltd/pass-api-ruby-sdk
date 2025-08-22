@@ -5,6 +5,7 @@ module PASS
     attribute :title, :string
 
     attr_accessor :id,
+                  :study_id,
                   :visit_schedule_id
 
     def create_endpoint
