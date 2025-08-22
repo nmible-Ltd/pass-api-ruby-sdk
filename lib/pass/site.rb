@@ -70,7 +70,7 @@ module PASS
 
       def has_one
         {
-          :study_country_id => OpenStruct.new(type: "study-countries", label: :studyCountries),
+          :study_country_id => OpenStruct.new(type: "study-countries", label: :studyCountry),
         }
       end
 
