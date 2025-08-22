@@ -21,9 +21,9 @@ module PASS
     attribute :max_patient_count, :integer
     attribute :travel_rate_value, :string
     attribute :travel_rate_unit_of_measurement, :string
-    attribute :point_of_contact_name, :string
-    attribute :point_of_contact_phone_number, :string
-    attribute :point_of_contact_email, :string
+    attribute :poc_name, :string
+    attribute :poc_phone_number, :string
+    attribute :poc_email, :string
     attribute :pi_name, :string
     attribute :approval_state, :string
     attribute :notes, :string
