@@ -75,7 +75,7 @@ module PASS
       end
 
       def query_filters
-        %w(country study study.visitSchedule.id)
+        %w(country study)
       end
     end
   end
