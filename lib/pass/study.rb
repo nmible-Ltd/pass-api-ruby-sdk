@@ -52,6 +52,7 @@ module PASS
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'studies' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
+          request.params["include"] = "expenseTypes"
         end
         collection = response.body[:data].map do |item|
           obj = new
