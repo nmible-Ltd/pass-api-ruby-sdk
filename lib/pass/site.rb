@@ -50,7 +50,7 @@ module PASS
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'sites' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
-          request.params["include"] = "studyCountry.study"
+          request.params["include"] = "studyCountry"
           active_query_filters(filters).each do |k, v|
             request.params["filter[#{k}]"] = v
           end
@@ -70,8 +70,7 @@ module PASS
 
       def has_one
         {
-          :study_id => OpenStruct.new(type: :studies, label: :study),
-          :country_id => OpenStruct.new(type: :countries, label: :country)
+          :study_country_id => OpenStruct.new(type: "study-countries", label: :studyCountries),
         }
       end
 
