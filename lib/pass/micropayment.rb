@@ -3,7 +3,7 @@ module PASS
     validates_presence_of :label, :status, :amount
 
     attribute :label, :string
-    attribute :status, :string, default: 'pending'
+    attribute :status, :string
     attribute :amount, :string
     attribute :rejection_reason, :string
 
