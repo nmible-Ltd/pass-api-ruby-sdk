@@ -19,6 +19,7 @@ module PASS
     attribute :requires_pin_change, :boolean, default: false
     attribute :tax_compliant, :boolean, default: false
     attribute :tax_requirement, :boolean, default: false
+    attribute :onboarded_at, :date
 
     attr_accessor :id,
                   :arm_id,
