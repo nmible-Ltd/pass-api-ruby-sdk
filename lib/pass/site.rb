@@ -30,8 +30,7 @@ module PASS
     attribute :draft_info, :string
 
     attr_accessor :id,
-                  :study_id,
-                  :country_id
+                  :study_country_id
 
 
     def create_endpoint
