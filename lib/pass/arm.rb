@@ -22,6 +22,7 @@ module PASS
 
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'arms' do |request|
+          request.params["include"] = "study"
           active_query_filters(filters).each do |k, v|
             request.params["filter[#{k}]"] = v
           end
@@ -35,7 +36,7 @@ module PASS
 
       def has_one
         {
-          :study_country_id => OpenStruct.new(type: "study-countries", label: :studyCountry)
+          :study_id => OpenStruct.new(type: "studies", label: :study)
         }
       end
 
