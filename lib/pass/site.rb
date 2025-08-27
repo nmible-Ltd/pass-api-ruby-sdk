@@ -74,7 +74,7 @@ module PASS
       end
 
       def query_filters
-        %w(country study)
+        %w(country study number)
       end
     end
   end
