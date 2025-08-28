@@ -10,8 +10,8 @@ module PASS
     attribute :client_id, :string
     attribute :randomisation_number_assigned_at, :date
     attribute :year_of_birth, :integer
-    attribute :enrolment_date, :date
-    attribute :screening_date, :date
+    attribute :enrolment_date, :datetime
+    attribute :screening_date, :datetime
     attribute :email, :string
     attribute :instruction_email_sent, :boolean, default: false
     attribute :screening_failed, :boolean, default: false
