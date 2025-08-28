@@ -34,6 +34,7 @@ module PASS
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get 'participants' do |request|
+          request.request :json
           # TODO: Remove this
           request.params["page[size]"] = 10000000
           active_query_filters(filters).each do |k, v|
