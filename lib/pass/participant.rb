@@ -18,6 +18,8 @@ module PASS
     attribute :pin_expires_at, :time
     attribute :requires_pin_change, :boolean, default: false
     attribute :onboarded_at, :date
+    attribute :tax_compliant, :boolean, default: nil
+    attribute :tax_requirement, :string, default: nil
 
     attr_accessor :id,
                   :arm_id,
@@ -40,9 +42,9 @@ module PASS
             request.params["filter[#{k}]"] = v
           end
         end
-        response.body[:data].map do |item|
-          item.delete(:tax_requirement)
-        end
+#         response.body[:data].map do |item|
+#           item.delete(:tax_requirement)
+#         end
         collection = extract_list_from_response(response)
         query_filters.each do |filter|
           filters.delete(filter.to_sym)
