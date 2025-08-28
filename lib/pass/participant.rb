@@ -42,9 +42,6 @@ module PASS
             request.params["filter[#{k}]"] = v
           end
         end
-#         response.body[:data].map do |item|
-#           item.delete(:tax_requirement)
-#         end
         collection = extract_list_from_response(response)
         query_filters.each do |filter|
           filters.delete(filter.to_sym)
