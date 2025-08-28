@@ -41,6 +41,7 @@ module PASS
           end
         end
         response.body[:data].delete(:tax_requirement)
+        response.body[:data][:attributes]&.delete(:tax_requirement)
         collection = extract_list_from_response(response)
         query_filters.each do |filter|
           filters.delete(filter.to_sym)
