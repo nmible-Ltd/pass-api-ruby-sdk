@@ -51,19 +51,25 @@ module PASS
           request.params["page[size]"] = 10000000 # TODO: Remove this
           request.params["include"] = "studyCountry"
           active_query_filters(filters).each do |k, v|
+            puts "active_query_filters: #{k}: #{v}"
             request.params["filter[#{k}]"] = v
           end
         end
 
         query_filters.each do |filter|
+          puts "delete filter to_sym: #{filter.to_sym}"
+          puts "delete filter to_s: #{filter.to_s}"
           filters.delete(filter.to_sym)
         end
 
         collection = response.body[:data].map do |item|
+          puts "response item: #{item}"
           obj = new
           obj.assign_attributes(extract_data_from_item(item))
           obj
         end
+        puts "filters: #{filters}"
+        puts "collection: #{collection}"
         filter_collection(filters, collection)
       end
 
