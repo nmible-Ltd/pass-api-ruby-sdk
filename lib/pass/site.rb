@@ -50,9 +50,9 @@ module PASS
         response = PASS::Client.instance.connection.get 'sites' do |request|
           request.params["page[size]"] = 10000000 # TODO: Remove this
           request.params["include"] = "studyCountry"
-#           active_query_filters(filters).each do |k, v|
-#             request.params["filter[#{k}]"] = v
-#           end
+          active_query_filters(filters).each do |k, v|
+            request.params["filter[#{k}]"] = v
+          end
         end
 
         query_filters.each do |filter|
@@ -74,7 +74,7 @@ module PASS
       end
 
       def query_filters
-        %w(country study number)
+        %w(country study)
       end
     end
   end
