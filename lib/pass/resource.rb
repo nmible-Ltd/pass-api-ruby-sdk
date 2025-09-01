@@ -128,9 +128,14 @@ module PASS
       end
 
       def list(filters: {}, debug: false)
-        response = PASS::Client.instance.connection.get list_endpoint
+        response = PASS::Client.instance.connection.get list_endpoint do |request|
+          request.params['include'] = included_associations.join(",") if included_associations.any?
+          active_query_filters(filters).each do |k,v|
+            request.params["filter[#{k}]"] = v
+          end
+        end
         collection = extract_list_from_response(response)
-        pp collection if debug
+        query_filters.each { |filter| filters.delete(filter.to_sym) }
         filter_collection(filters, collection)
       end
 
@@ -143,6 +148,7 @@ module PASS
           end
         rescue
           puts "failed to extract list with body of #{response.body.to_s}"
+          puts response.inspect
           raise
         end
       end
@@ -215,6 +221,10 @@ module PASS
 
       def has_many
         {}
+      end
+
+      def included_associations
+        []
       end
 
     end

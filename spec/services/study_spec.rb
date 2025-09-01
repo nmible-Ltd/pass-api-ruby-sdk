@@ -26,7 +26,7 @@ RSpec.describe 'PASS::Study' do
 
     context "when listing studies with a filter" do
       before do
-        @studies = PASS::Study.list(filters: {protocol_number: @attributes[:protocol_number]})
+        @studies = PASS::Study.list(filters: {protocolNumber: @attributes[:protocol_number]})
       end
 
       it 'should return a list of 1 study' do

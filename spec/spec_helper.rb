@@ -101,7 +101,7 @@ RSpec.configure do |config|
 =end
 end
 
-BASE_URL = "https://v2saas.nmible-staging.com"
+BASE_URL = "https://pph-api-iqvia.nmible-dev.com"
 EMAIL= "nmible-support@nmible.test"
 PASSWORD = "password"
 

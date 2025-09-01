@@ -1,11 +1,11 @@
 class StudyFixture
   class << self
     def valid
-      country_us = PASS::Country.list(filters: {code: 'US'}).first.id
-      currency_usd = PASS::Currency.list(filters: {code: 'USD'}).first.id
-      language_en = PASS::Language.list(filters: {code: 'EN'}).first.id
+      country_bg = PASS::Country.list(filters: {code: 'BG'}).first.id
+      currency_bgn = PASS::Currency.list(filters: {code: 'BGN'}).first.id
+      language_en = PASS::Language.list(filters: {code: 'en'}).first.id
       expense_type_mileage = PASS::ExpenseType.list(filters: {name: 'Mileage'}).first.id
-
+      visit_type_onsite = PASS::VisitType.list(filters: {name: 'On-site'}).first.id
       {
         name: 'My study-test',
         sponsor: 'OMAR-CORP',
@@ -16,12 +16,13 @@ class StudyFixture
         description: 'This is a study',
         max_budget: '100000.00',
         notification_percentage: '10.00',
-        country_ids: [country_us],
-        currency_ids: [currency_usd],
+        country_ids: [country_bg],
+        currency_ids: [currency_bgn],
         language_ids: [language_en],
         expense_type_ids: [expense_type_mileage],
         default_language_id: language_en,
-        default_currency_id: currency_usd
+        default_currency_id: currency_bgn,
+        supported_visit_type_ids: [visit_type_onsite]
       }
     end
   end
