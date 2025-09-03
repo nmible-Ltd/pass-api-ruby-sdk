@@ -16,7 +16,7 @@ module PASS
     class << self
       def list(filters: {}, debug: false)
         response = PASS::Client.instance.connection.get list_endpoint do |request|
-          request.params["page[size]"] = 10000000 # TODO: Remove this
+          request.params["page[limit]"] = 10000000 # TODO: Remove this
           active_query_filters(filters).each do |k, v|
             request.params["filter[#{k}]"] = v
           end
