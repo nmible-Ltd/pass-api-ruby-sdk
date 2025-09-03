@@ -1,6 +1,6 @@
 module PASS
   class ParticipantVisit < PASS::Resource
-    attribute :confirmed, :boolean, default: false
+    attribute :action, :string
     attribute :actual_visit_timestamp, :date
     attribute :stipend_value, :string
 
@@ -10,7 +10,7 @@ module PASS
                   :selected_visit_type_id
 
     def update_endpoint
-      "participant-visits/#{id}"
+      "participant-visits/#{id}/action"
     end
 
     class << self
