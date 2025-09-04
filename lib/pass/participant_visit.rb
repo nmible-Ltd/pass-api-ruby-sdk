@@ -8,7 +8,8 @@ module PASS
     attr_accessor :id,
                   :participant_id,
                   :visit_id,
-                  :selected_visit_type_id
+                  :selected_visit_type_id,
+                  :visit_type_id
 
     def update_endpoint
       "participant-visits/#{id}/action"
@@ -47,7 +48,8 @@ module PASS
         {
           :visit_id => OpenStruct.new(type: :visits, label: :visit),
           :participant_id => OpenStruct.new(type: :participants, label: :participant),
-          :selected_visit_type_id => OpenStruct.new(type: "visit-types", label: :selectedVisitType, optional: true)
+          :selected_visit_type_id => OpenStruct.new(type: "visit-types", label: :selectedVisitType, optional: true),
+          :visit_type_id => OpenStruct.new(type: "visit-types", label: :visitType, optional: true)
         }
       end
     end
