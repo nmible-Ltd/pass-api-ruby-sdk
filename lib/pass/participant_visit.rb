@@ -3,6 +3,7 @@ module PASS
     attribute :action, :string
     attribute :actual_visit_timestamp, :date
     attribute :stipend_value, :string
+    attribute :confirmed, :boolean, default: false
 
     attr_accessor :id,
                   :participant_id,
