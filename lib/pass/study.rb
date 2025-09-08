@@ -10,6 +10,8 @@ module PASS
     attribute :name, :string
     attribute :sponsor, :string
     attribute :status, :string
+    attribute :code, :string
+    attribute :use_study_code_for_login_id, :boolean, default: false
     attribute :service_agreement_type, :string
     attribute :status, :string
     attribute :description, :string
@@ -33,6 +35,7 @@ module PASS
                   :currency_ids,
                   :language_ids,
                   :expense_type_ids,
+                  :supported_visit_type_ids,
                   :default_language_id,
                   :default_currency_id
 
@@ -45,23 +48,12 @@ module PASS
     end
 
     class << self
-      def get_endpoint(id)
-        "studies/#{id}"
+      def list_endpoint
+        'studies'
       end
 
-      def list(filters: {})
-        response = PASS::Client.instance.connection.get 'studies' do |request|
-          # request.params["page[size]"] = 10000000
-          request.params["include"] = "defaultLanguage,expenseTypes,supportedLanguages"
-          active_query_filters(filters).each do |k, v|
-            request.params["filter[#{k}]"] = v
-          end
-        end
-        collection = extract_list_from_response(response)
-        query_filters.each do |filter|
-          filters.delete(filter.to_sym)
-        end
-        filter_collection(filters, collection)
+      def get_endpoint(id)
+        "studies/#{id}"
       end
 
       def has_one
@@ -73,12 +65,17 @@ module PASS
       def has_many
         {
           :expense_type_ids => OpenStruct.new(type: "expense-types", label: :expenseTypes),
-          :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages)
+          :language_ids => OpenStruct.new(type: :languages, label: :supportedLanguages),
+          :supported_visit_type_ids => OpenStruct.new(type: "visit-types", label: :supportedVisitTypes)
         }
       end
 
       def query_filters
         %w(protocolNumber)
+      end
+
+      def included_associations
+        %w(defaultLanguage expenseTypes supportedLanguages supportedVisitTypes)
       end
 
     end

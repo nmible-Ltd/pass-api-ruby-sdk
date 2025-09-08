@@ -22,7 +22,7 @@ module PASS
     class << self
       def list(filters: {})
         response = PASS::Client.instance.connection.get list_endpoint do |request|
-          request.params["page[size]"] = 10000000 # TODO: Remove this
+          request.params["page[limit]"] = 10000000 # TODO: Remove this
         end
         collection = extract_list_from_response(response)
         filter_collection(filters, collection)
