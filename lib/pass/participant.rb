@@ -8,6 +8,7 @@ module PASS
     attribute :screening_number, :string
     attribute :randomisation_number, :string
     attribute :client_id, :string
+    attribute :login_id, :string
     attribute :randomisation_number_assigned_at, :date
     attribute :year_of_birth, :integer
     attribute :enrolment_date, :string
