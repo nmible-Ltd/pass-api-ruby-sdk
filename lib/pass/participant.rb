@@ -19,6 +19,7 @@ module PASS
     attribute :pin_expires_at, :time
     attribute :requires_pin_change, :boolean, default: false
     attribute :onboarded_at, :date
+    attribute :last_login_at, :datetime
     attribute :tax_compliant, :boolean, default: nil
     attribute :tax_requirement, :string, default: nil
 
