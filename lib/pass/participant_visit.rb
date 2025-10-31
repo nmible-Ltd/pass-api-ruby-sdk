@@ -2,6 +2,7 @@ module PASS
   class ParticipantVisit < PASS::Resource
     attribute :action, :string
     attribute :actual_visit_timestamp, :date
+    attribute :actual_visit_date, :datetime
     attribute :stipend_value, :string
     attribute :confirmed, :boolean, default: false
 
